@@ -13,7 +13,6 @@ func PrintStr(s string) {
 	}
 	z01.PrintRune(10)
 }
-
 func OpenDoor(ptrDoor *Door) bool {
 	PrintStr("Door Opening...")
 	ptrDoor.state = true
@@ -26,20 +25,27 @@ func CloseDoor(ptrDoor *Door) bool {
 	return true
 }
 
-func IsDoorOpen(ptrDoor *Door) bool {
+func IsDoorOpen(ptrDoor *Door) bool{
 	PrintStr("is the Door opened ?")
-	return ptrDoor.state
+	return ptrDoor.state == true
 }
 
 func IsDoorClose(ptrDoor *Door) bool {
 	PrintStr("is the Door closed ?")
-	return ptrDoor.state
+	return ptrDoor.state == true
 }
 
 func main() {
-	var door Door
-	OpenDoor(&door)
-	IsDoorClose(&door)
-	IsDoorOpen(&door)
-	CloseDoor(&door)
+	door := &Door{}
+
+	OpenDoor(door)
+	if IsDoorClose(door) {
+		OpenDoor(door)
+	}
+	if IsDoorOpen(door) {
+		CloseDoor(door)
+	}
+	if door.state == true {
+		CloseDoor(door)
+	}
 }

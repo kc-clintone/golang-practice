@@ -4,14 +4,9 @@ import (
 	"os"
 )
 
-const (
-	CONST1 = 9223372036854775807
-	CONST2 = 9223372036854775808
-)
-
 func resultValid(arg string, a, b int) bool {
 	var result uint
-	isNegative := false
+	negatif := false
 	if a < 0 {
 		a = -a
 	} else if b < 0 {
@@ -20,34 +15,34 @@ func resultValid(arg string, a, b int) bool {
 	if arg == "+" {
 		result = uint(a) + uint(b)
 		if a < 0 && b < 0 {
-			isNegative = true
+			negatif = true
 		}
 	} else if arg == "-" {
 		result = uint(a) + uint(b)
 		if a < 0 && b < 0 {
-			isNegative = true
+			negatif = true
 		}
 	} else if arg == "*" {
-		var maxValue int
-		var minValue int
+		var max int
+		var min int
 		if a > b {
-			maxValue = a
-			minValue = b
+			max = a
+			min = b
 		} else if a < b {
-			maxValue = b
-			minValue = a
+			max = b
+			min = a
 		}
-		for i := 0; i < maxValue; i++ {
-			result += uint(a) * uint(minValue)
-			if result > CONST1 || result > CONST2 && isNegative {
+		for i := 0; i < max; i++ {
+			result += uint(a) * uint(min)
+			if result > 9223372036854775807 || result > 9223372036854775808 && negatif == true {
 				return false
 			}
 		}
 		if a < 0 || b < 0 {
-			isNegative = true
+			negatif = true
 		}
 	}
-	if result > CONST1 || result > CONST2 && isNegative {
+	if result > 9223372036854775807 || result > 9223372036854775808 && negatif == true {
 		return false
 	}
 	return true
@@ -60,17 +55,17 @@ func operation(arg string, a, b int) string {
 	var signeString string
 
 	if arg == "+" {
-		if !resultValid(arg, a, b) {
+		if resultValid(arg, a, b) == false {
 			return newString
 		}
 		result = a + b
 	} else if arg == "-" {
-		if !resultValid(arg, a, b) {
+		if resultValid(arg, a, b) == false {
 			return newString
 		}
 		result = a - b
 	} else if arg == "*" {
-		if !resultValid(arg, a, b) {
+		if resultValid(arg, a, b) == false {
 			return newString
 		}
 		result = a * b
@@ -109,44 +104,44 @@ func operation(arg string, a, b int) string {
 }
 
 func convertStringNumber(arg string) int {
-	counter := 1
-	var num int
-	isNegative := false
+	puissance := 1
+	var nb int
+	negatif := false
 
 	for i := len(arg) - 1; i >= 0; i-- {
 		if i == 0 && arg[i] == 45 {
-			isNegative = true
+			negatif = true
 		} else {
-			num += int(arg[i]-48) * counter
-			counter *= 10
+			nb += int(arg[i]-48) * puissance
+			puissance *= 10
 		}
 	}
-	if isNegative {
-		return -num
+	if negatif == true {
+		return -nb
 	}
-	return num
+	return nb
 }
 
 func validValue(arg string) bool {
-	counter := 1
-	isNegative := false
+	puissance := 1
+	negatif := false
 	argSave := arg
 
-	var num uint
+	var nb uint
 	for i := 0; i < len(arg); i++ {
 		if arg[0] != 45 && arg[i] < 48 || arg[i] > 57 {
 			return false
 		}
 	}
 	if arg[0] == 45 {
-		isNegative = true
+		negatif = true
 		argSave = arg[1:]
 	}
 	for i := len(argSave) - 1; i >= 0; i-- {
-		num += uint(argSave[i]-48) * uint(counter)
-		counter *= 10
+		nb += uint(argSave[i]-48) * uint(puissance)
+		puissance *= 10
 	}
-	if num > CONST1 || num > CONST2 && isNegative {
+	if nb > 9223372036854775807 || nb > 9223372036854775808 && negatif == true {
 		return false
 	}
 	return true
@@ -166,18 +161,18 @@ func main() {
 		os.Args = os.Args[1:]
 		for i := 0; i < len(os.Args); i++ {
 			if i != 1 {
-				if !validValue(os.Args[i]) {
+				if validValue(os.Args[i]) == false {
 					return
 				}
 			} else {
-				if !validOperator(os.Args[i]) {
+				if validOperator(os.Args[i]) == false {
 					return
 				}
 			}
 		}
-		seultsAt := operation(os.Args[1], convertStringNumber(os.Args[0]), convertStringNumber(os.Args[2]))
-		os.Stderr.WriteString(seultsAt)
-		if seultsAt != "" {
+		resultat := operation(os.Args[1], convertStringNumber(os.Args[0]), convertStringNumber(os.Args[2]))
+		os.Stderr.WriteString(resultat)
+		if resultat != "" {
 			os.Stderr.WriteString("\n")
 		}
 	}

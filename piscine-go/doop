@@ -1,0 +1,100 @@
+package main
+
+import (
+	"os"
+)
+
+func main() {
+	if len(os.Args) != 4 {
+		return
+	}
+
+	arg1 := os.Args[1]
+	operator := os.Args[2]
+	arg2 := os.Args[3]
+
+	num1, valid1 := stringToInt(arg1)
+	num2, valid2 := stringToInt(arg2)
+
+	if !valid1 || !valid2 {
+		return
+	}
+
+	switch operator {
+	case "+":
+		writeOutput(num1 + num2)
+	case "-":
+		writeOutput(num1 - num2)
+	case "*":
+		writeOutput(num1 * num2)
+	case "/":
+		if num2 == 0 {
+			writeOutputStr("No division by 0\n")
+			return
+		}
+		writeOutput(num1 / num2)
+	case "%":
+		if num2 == 0 {
+			writeOutputStr("No modulo by 0\n")
+			return
+		}
+		writeOutput(num1 % num2)
+	default:
+		return
+	}
+}
+
+func stringToInt(s string) (int, bool) {
+	isNegative := false
+	result := 0
+
+	if len(s) > 0 && s[0] == '-' {
+		isNegative = true
+		s = s[1:]
+	}
+	for i := 0; i < len(s); i++ {
+		char := s[i]
+		if char < '0' || char > '9' {
+			return 0, false
+		}
+		result = result*10 + int(char-'0')
+	}
+	if isNegative {
+		result = -result
+	}
+
+	return result, true
+}
+
+func writeOutput(num int) {
+	output := intToString(num) + "\n"
+	os.Stdout.Write([]byte(output))
+}
+
+func writeOutputStr(output string) {
+	os.Stdout.Write([]byte(output))
+}
+
+func intToString(num int) string {
+	if num == 0 {
+		return "0"
+	}
+
+	isNegative := num < 0
+	if isNegative {
+		num = -num
+	}
+
+	result := ""
+	for num > 0 {
+		digit := num % 10
+		result = string('0'+digit) + result
+		num /= 10
+	}
+
+	if isNegative {
+		result = "-" + result
+	}
+
+	return result
+}
