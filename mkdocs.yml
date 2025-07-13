@@ -1,0 +1,56 @@
+site_name: Go Practice Workspace
+site_description: A collection of Go programming exercises and shell scripting challenges.
+site_author: kc-clintone
+repo_url: https://github.com/kc-clintone/golang-practice
+
+nav:
+  - Home: README.md
+  - Syllabus: syllabus.md
+  - Setup Guide: setup.md
+  - Resources: resources.md
+  - Contributing: CONTRIBUTING.md
+  - Code of Conduct: CODE_OF_CONDUCT.md
+  - License: LICENSE.md
+  - Exercises:
+      - Go Exercises:
+          - toupper.go: content/toupper.go
+          - tolower.go: content/tolower.go
+          - strrev.go: content/strrev.go
+          - strlen.go: content/strlen.go
+          - sqrt.go: content/sqrt.go
+          - isprime.go: content/isprime.go
+          - iterativefactorial.go: content/iterativefactorial.go
+          - recursivepower.go: content/recursivepower.go
+          - sortintegertable.go: content/sortintegertable.go
+          - sortwordarr.go: content/sortwordarr.go
+          - map.go: content/map.go
+          - swap.go: content/swap.go
+          - pointone.go: content/pointone.go
+          - ultimatedivmod.go: content/ultimatedivmod.go
+          - rockandroll.go: content/rockandroll.go
+          - jumpover.go: content/jumpover.go
+          - loafofbread.go: content/loafofbread.go
+      - Shell Scripts:
+          - skip.sh: content/skip.sh
+          - lookagain.sh: content/lookagain.sh
+          - mastertheLS: content/mastertheLS
+          - who-are-you.sh: content/who-are-you.sh
+          - to-git-or-not-to-git.sh: content/to-git-or-not-to-git.sh
+          - myfamily.sh: content/myfamily.sh
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
+  - footnotes
+  - tables
+  - attr_list
